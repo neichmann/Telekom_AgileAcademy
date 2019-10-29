@@ -1,8 +1,10 @@
-package org.javacream.books.isbngenerator;
+package org.javacream.books.isbngenerator.impl;
 
 import java.util.Random;
 
-public class RandomIsbnGenerator{
+import org.javacream.books.isbngenerator.api.IsbnGenerator;
+
+public class RandomIsbnGenerator implements IsbnGenerator{
 
 	private Random random;
 	
@@ -18,6 +20,7 @@ public class RandomIsbnGenerator{
 	private String suffix;
 	
 
+	@Override
 	public String next() {
 		return prefix + Math.abs(random.nextInt()) + suffix;
 	}

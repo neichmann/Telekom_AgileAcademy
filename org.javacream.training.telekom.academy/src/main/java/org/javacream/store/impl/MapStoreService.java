@@ -1,15 +1,15 @@
-package org.javacream.store;
+package org.javacream.store.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStoreService{
+import org.javacream.store.api.StoreService;
+
+public class MapStoreService implements StoreService{
 
 	private Map<String, Map<String, Integer>> store;
 	
-	{
-		store = new HashMap<String, Map<String,Integer>>();
-	}
+	@Override
 	public int getStock(String category, String id) {
 		try {
 			Integer stock = store.get(category).get(id);
@@ -34,5 +34,9 @@ public class MapStoreService{
 			store.put(category, items);
 		}
 		items.put(id, stock);
+	}
+
+	public void setStore(Map<String, Map<String, Integer>> store) {
+		this.store = store;
 	}
 }
