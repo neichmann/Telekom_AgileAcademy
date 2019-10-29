@@ -1,96 +1,40 @@
 package org.javacream.books.warehouse;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
 
-import org.javacream.books.isbngenerator.impl.RandomIsbnGenerator;
 import org.javacream.books.warehouse.api.Book;
 import org.javacream.books.warehouse.api.BookException;
 import org.javacream.books.warehouse.api.BooksService;
 import org.javacream.books.warehouse.api.SchoolBook;
 import org.javacream.books.warehouse.api.SpecialistBook;
-import org.javacream.books.warehouse.impl.MapBooksService;
-import org.javacream.store.impl.MapStoreService;
 import org.javacream.util.Ordering;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@ActiveProfiles("test")
 public class BooksServiceOperationsTest {
-
+	@Autowired
 	private BooksService booksService;
-	private final String ISBN = "TEST-ISBN";
-	private final String TITLE = "TEST-TITLE";
-	private final double PRICE = 9.99;
-	private final double NEW_PRICE = 19.99;
+	@Value("${isbn}") private String isbn;
+	@Value("${title}") private String title;
+	@Value("${price}") private double price;
+	private double NEW_PRICE = 19.99;
 
 	private final String WRONG_ISBN = "##ISBN##";
 
-	@Before
-	public void init() {
-		MapBooksService mapBooksService = new MapBooksService();
-		RandomIsbnGenerator randomIsbnGenerator = new RandomIsbnGenerator("TEST:", "-de");
-		MapStoreService mapStoreService = new MapStoreService();
-		HashMap<String, Book> books = new HashMap<String, Book>();
-		Map<Set<String>, Function<Map<String, Object>, Book>> generators = new HashMap<>();
-		Map<String, Map<String, Integer>> store = new HashMap<>();
-		HashMap<String, Integer> booksStore = new HashMap<>();
-
-		for (int i = 1; i <= 10; i++) {
-			Book book = new Book();
-			book.setIsbn("ISBN" + i);
-			book.setTitle("Title" + i);
-			book.setPrice(9.99 * i);
-			books.put(book.getIsbn(), book);
-			booksStore.put(book.getIsbn(), i);
-		}
-
-		Book testBook = new Book();
-		testBook.setIsbn(ISBN);
-		testBook.setTitle(TITLE);
-		testBook.setPrice(PRICE);
-		books.put(ISBN, testBook);
-
-		HashSet<String> booksKeySet = new HashSet<>();
-		generators.put(booksKeySet, (Map<String, Object> options) -> {
-			Book book = new Book();
-			return book;
-		});
-
-		HashSet<String> schoolBooksKeySet = new HashSet<>(booksKeySet);
-		schoolBooksKeySet.add("subject");
-		schoolBooksKeySet.add("year");
-		generators.put(schoolBooksKeySet, (Map<String, Object> options) -> {
-			SchoolBook book = new SchoolBook();
-			book.setSubject((String) options.get("subject"));
-			book.setYear((Integer) options.get("year"));
-			return book;
-		});
-		HashSet<String> specialistBooksKeySet = new HashSet<>(booksKeySet);
-		specialistBooksKeySet.add("topic");
-		generators.put(specialistBooksKeySet, (Map<String, Object> options) -> {
-			SpecialistBook book = new SpecialistBook();
-			book.setTopic((String) options.get("topic"));
-			return book;
-		});
-
-		store.put("books", booksStore);
-		mapBooksService.setBooks(books);
-		mapBooksService.setGenerators(generators);
-		mapBooksService.setIsbnGenerator(randomIsbnGenerator);
-		mapBooksService.setStoreService(mapStoreService);
-
-		mapStoreService.setStore(store);
-		booksService = mapBooksService;
-	}
 
 	@Test
 	public void deleteBookByIsbnOk() throws BookException {
-		Book book = booksService.findBookByIsbn(ISBN);
-		booksService.deleteBookByIsbn(ISBN);
+		Book book = booksService.findBookByIsbn(isbn);
+		booksService.deleteBookByIsbn(isbn);
 		Assert.assertFalse(booksService.findAllBooks().contains(book));
 	}
 
@@ -101,7 +45,7 @@ public class BooksServiceOperationsTest {
 
 	@Test
 	public void findBookByIsbnOk() throws BookException {
-		Book book = booksService.findBookByIsbn(ISBN);
+		Book book = booksService.findBookByIsbn(isbn);
 		Assert.assertNotNull(book);
 	}
 
@@ -118,7 +62,7 @@ public class BooksServiceOperationsTest {
 	@Test
 	public void updateBookOk() throws BookException {
 		final String NEW_TITLE = "CHANGED";
-		Book book = booksService.findBookByIsbn(ISBN);
+		Book book = booksService.findBookByIsbn(isbn);
 		book.setTitle(NEW_TITLE);
 		book.setPrice(NEW_PRICE);
 		Book book2 = booksService.updateBook(book);
@@ -135,14 +79,14 @@ public class BooksServiceOperationsTest {
 
 	@Test(expected = Exception.class)
 	public void updateBookPriceNotGreaterZeroFails() throws BookException {
-		Book book = booksService.findBookByIsbn(ISBN);
+		Book book = booksService.findBookByIsbn(isbn);
 		book.setPrice(-NEW_PRICE);
 		booksService.updateBook(book);
 	}
 
 	@Test
 	public void createBook() throws BookException {
-		String isbn = booksService.newBook("TEST", PRICE, new HashMap<String, Object>());
+		String isbn = booksService.newBook("TEST", price, new HashMap<String, Object>());
 		Book book = booksService.findBookByIsbn(isbn);
 		Assert.assertTrue(book.getClass() == Book.class);
 
@@ -153,7 +97,7 @@ public class BooksServiceOperationsTest {
 		HashMap<String, Object> options = new HashMap<String, Object>();
 		options.put("subject", "Physics");
 		options.put("year", 10);
-		String isbn = booksService.newBook("TEST", PRICE, options);
+		String isbn = booksService.newBook("TEST", price, options);
 		Book book = booksService.findBookByIsbn(isbn);
 		Assert.assertTrue(book.getClass() == SchoolBook.class);
 
@@ -163,7 +107,7 @@ public class BooksServiceOperationsTest {
 	public void createSpecialistBook() throws BookException {
 		HashMap<String, Object> options = new HashMap<String, Object>();
 		options.put("topic", "Very Special");
-		String isbn = booksService.newBook("TEST", PRICE, options);
+		String isbn = booksService.newBook("TEST", price, options);
 		Book book = booksService.findBookByIsbn(isbn);
 		Assert.assertTrue(book.getClass() == SpecialistBook.class);
 
@@ -171,7 +115,7 @@ public class BooksServiceOperationsTest {
 
 	@Test(expected = Exception.class)
 	public void createBookFailsNullOptions() throws BookException {
-		booksService.newBook("TEST", PRICE, null);
+		booksService.newBook("TEST", price, null);
 
 	}
 

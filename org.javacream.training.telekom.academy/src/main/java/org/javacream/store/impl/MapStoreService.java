@@ -4,9 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.javacream.store.api.StoreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MapStoreService implements StoreService{
 
+	@Autowired @Qualifier("storeMap")
 	private Map<String, Map<String, Integer>> store;
 	
 	@Override

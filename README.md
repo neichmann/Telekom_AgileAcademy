@@ -1,18 +1,19 @@
-# Musterlösung nach Block 4 der Telekom Akademie
+# Musterlösung nach Block 5 der Telekom Akademie
 
 ## Schwerpunkte
 
-* Refactoring
-  * Einführung von Interfaces
-  * Unterscheidung zwischen api- und impl-Paket 
-* Einführung "richtiger" Tests	
-  * BooksServiceOperationsTest: Testet alle Methoden
-  * BooksServiceScenarioTest: Ausführung einer Test-Sequenz 
-  * BooksServiceFindBookByIsbnTest: Beispiel für einen Test mit Mock-Objekten und Mockito
+* Umstellung auf Spring Boot Projekt
+  * Änderung pom
+* Umstellung auf Spring CDI
+  * Annotieren der Fach-Klassen mit @Component
+  * Konfiguration mit application.properties und @Value
+  * Einführung der Profiles dev (Starten der Application) und test (für die Spring Boot Tests) 
+  * Einführen der BooksConfiguration für die Erzeugung der diversen Maps (books, store, generators)
+* Umstellung der Tests auf Spring Boot Tests
+  * Einführen der BooksTestConfiguration	
+  * BooksServiceScenarioTest und BooksServiceScenarioTest lassen sich den BooksService autowiren, die init-Methode ist damit unnötig  
 
 ## Hinweise
 
-* Mögliche Erweiterungen:
-  * Tests für IsbnGenerator und StoreService
-  * Je nach Zeit und Lust der Teilnehmer weitere Tests mit Mock-Objekten
+* Der Mockito-Test BooksServiceFindBookByIsbnTest bleibt unverändert, da das Setzen der Mocks im Testfall bleibt
 
