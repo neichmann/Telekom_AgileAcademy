@@ -10,7 +10,6 @@ import org.javacream.books.warehouse.api.Book;
 import org.javacream.books.warehouse.api.SchoolBook;
 import org.javacream.books.warehouse.api.SpecialistBook;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,19 +17,6 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("test")
 public class BooksTestConfiguration {
-
-	@Bean
-	@Qualifier("booksMap")
-	public HashMap<String, Book> booksMap(@Value("${isbn}") String isbn, @Value("${title}") String title,
-			@Value("${price}") double price) {
-		HashMap<String, Book> books = new HashMap<String, Book>();
-		Book testBook = new Book();
-		testBook.setIsbn(isbn);
-		testBook.setTitle(title);
-		testBook.setPrice(price);
-		books.put(isbn, testBook);
-		return books;
-	}
 
 	@Bean
 	@Qualifier("generatorsMap")
@@ -61,11 +47,5 @@ public class BooksTestConfiguration {
 		return generators;
 	}
 
-	@Bean
-	@Qualifier("storeMap")
-	public Map<String, Map<String, Integer>> storeMap() {
-		Map<String, Map<String, Integer>> store = new HashMap<>();
-		return store;
-	}
 
 }

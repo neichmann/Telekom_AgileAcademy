@@ -1,5 +1,8 @@
 package org.javacream.books.warehouse.api;
 
+import javax.persistence.Entity;
+
+@Entity
 public class SchoolBook extends Book{
 
 	private int year;

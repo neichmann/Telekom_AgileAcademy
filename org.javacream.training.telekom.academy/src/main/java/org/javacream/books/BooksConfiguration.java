@@ -19,12 +19,6 @@ import org.springframework.context.annotation.Profile;
 public class BooksConfiguration {
 
 	@Bean
-	@Qualifier("booksMap")
-	public HashMap<String, Book> booksMap() {
-		return new HashMap<String, Book>();
-	}
-
-	@Bean
 	@Qualifier("generatorsMap")
 	public Map<Set<String>, Function<Map<String, Object>, Book>> generatorsMap() {
 		Map<Set<String>, Function<Map<String, Object>, Book>> generators = new HashMap<>();
@@ -53,10 +47,5 @@ public class BooksConfiguration {
 		return generators;
 	}
 
-	@Bean
-	@Qualifier("storeMap")
-	public Map<String, Map<String, Integer>> storeMap() {
-		return new HashMap<>();
-	}
 
 }

@@ -1,29 +1,45 @@
 package org.javacream.books.warehouse.api;
 
-public class Book implements Comparable<Book>{
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Book implements Comparable<Book> {
+	@Id
 	private String isbn;
 	private String title;
 	private double price;
+	@Transient
 	private boolean available;
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public double getPrice() {
 		return price;
 	}
+
 	public void setPrice(double price) {
 		this.price = price;
 	}
+
 	public boolean isAvailable() {
 		return available;
 	}
+
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
+
 	public String getIsbn() {
 		return isbn;
 	}
@@ -44,6 +60,7 @@ public class Book implements Comparable<Book>{
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,10 +86,12 @@ public class Book implements Comparable<Book>{
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "Book [isbn=" + isbn + ", title=" + title + ", price=" + price + ", available=" + available + "]";
 	}
+
 	@Override
 	public int compareTo(Book book) {
 		return this.isbn.compareTo(book.isbn);
