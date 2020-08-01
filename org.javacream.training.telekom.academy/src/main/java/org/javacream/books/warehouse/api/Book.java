@@ -5,9 +5,14 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Transient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Book implements Comparable<Book> {
 	@Id
 	private String isbn;

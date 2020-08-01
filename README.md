@@ -1,19 +1,17 @@
-# Musterlösung nach Block 5 der Telekom Akademie
+# Musterlösung nach Block 8 der Telekom Akademie
 
 ## Schwerpunkte
 
-* Umstellung auf Spring Boot Projekt
-  * Änderung pom
-* Umstellung auf Spring CDI
-  * Annotieren der Fach-Klassen mit @Component
-  * Konfiguration mit application.properties und @Value
-  * Einführung der Profiles dev (Starten der Application) und test (für die Spring Boot Tests) 
-  * Einführen der BooksConfiguration für die Erzeugung der diversen Maps (books, store, generators)
-* Umstellung der Tests auf Spring Boot Tests
-  * Einführen der BooksTestConfiguration	
-  * BooksServiceScenarioTest und BooksServiceScenarioTest lassen sich den BooksService autowiren, die init-Methode ist damit unnötig  
+* Implementierung von RESTful Web Services
+  * Änderung pom: Starter web und developer-tools
+  * RESTful Facaden für alle Services
+    * CRUD für BooksService
+    * Lesen und Schreiben/Neuanlegen von Store-Einträgen mit POST
+    * Generieren einer ISBN mit POST
 
 ## Hinweise
 
-* Der Mockito-Test BooksServiceFindBookByIsbnTest bleibt unverändert, da das Setzen der Mocks im Testfall bleibt
+* Zugriff auf die Services am Besten mit Curl-Skripten
+  * Textdatei mit Aufrufen im Verzeichnis curlscripts
+  * [Download curl für Windows](https://curl.haxx.se/windows/)
 
