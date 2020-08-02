@@ -1,0 +1,6 @@
+# Read a book by id
+http://localhost:9091/api/store/BOOKS/ISBN2
+
+# Read list of Resource IDs by Tag
+
+http://localhost:9091/api/store/tags/Java

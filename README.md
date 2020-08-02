@@ -1,17 +1,19 @@
-# Musterlösung nach Block 8 der Telekom Akademie
+# Musterlösung nach Block 11 der Telekom Akademie
 
 ## Schwerpunkte
 
-* Implementierung von RESTful Web Services
-  * Änderung pom: Starter web und developer-tools
-  * RESTful Facaden für alle Services
-    * CRUD für BooksService
-    * Lesen und Schreiben/Neuanlegen von Store-Einträgen mit POST
-    * Generieren einer ISBN mit POST
+* Refactoring der Projekte und Einführen von Microservices
+  * Hinzufügen von Swagger zur Service-Beschreibung
+  * Modularisierung der Projekte, Auslagern des StoreService in ein separates Projekt
+* Einführen von Parent-POMS zur Vereinfachung des Build-Prozesses
+* Beispiel ContentService mit Zugriff auf ein Couchbase-Repository
+
 
 ## Hinweise
 
-* Zugriff auf die Services am Besten mit Curl-Skripten
-  * Textdatei mit Aufrufen im Verzeichnis curlscripts
-  * [Download curl für Windows](https://curl.haxx.se/windows/)
+* Ein fertig konfigurierter Couchbase-Server inklusive des im Beispiel angegebenen Testdatensatzes liegt auf Docker-Hub
+  * docker pull javacream/couchbase:telekom
+  * docker run -d --name telekomcouchbase -p 8091-8094:8091-8094 -p 11210:11210 javacream/couchbase:telekom 
+
+
 

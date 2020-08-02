@@ -1,0 +1,24 @@
+curl -verbose -X GET -H "Accept: text/html" http://integrata-cegos.de
+
+# ISBN
+
+curl -X POST http://localhost:8080/api/isbn
+
+# Store
+
+curl -X POST -H "stock: 42" http://localhost:8080/api/store/dvd/StarTrek
+curl -X GET http://localhost:8080/api/store/dvd/StarTrek
+
+
+# Books
+
+curl -X POST http://localhost:8080/api/books/Spring
+curl -X GET http://localhost:8080/api/books/<REPLACE_WITH_GENERATED_ISBN>
+curl -X PUT -H "Content-Type: application/json" -d@update.json http://localhost:8080/api/books/<REPLACE_WITH_GENERATED_ISBN>
+curl -X DELETE http://localhost:8080/api/books/<REPLACE_WITH_GENERATED_ISBN>
+
+
+# Ordering
+
+curl -X POST http://localhost:8080/api/order/ISBN-42-dk/5
+curl -X GET http://localhost:8080/api/order/48
